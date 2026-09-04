@@ -54,3 +54,24 @@ Push your changes, then create and publish a
 [GitHub Release](https://docs.github.com/en/repositories/releasing-projects-on-github) (a new
 tag, e.g. `v1.0.0`). The `release.yml` workflow picks it up, builds the EPUB and PDF, and attaches
 both files to that release automatically — no manual upload needed.
+
+## Pulling framework updates
+
+This repo is a [GitHub template](https://github.com/jdmasa/bookish) — using "Use this template"
+(or `gh repo create my-book --template jdmasa/bookish`) gives your book its own repo with no git
+history or link back here, so fixes made to bookish later never reach existing book repos on
+their own.
+
+To pull one in, add bookish as a remote in your book's repo and cherry-pick the specific fix
+commit(s):
+
+```sh
+git remote add bookish https://github.com/jdmasa/bookish.git
+git fetch bookish
+git log bookish/main --oneline    # find the commit(s) you want
+git cherry-pick <commit-sha>
+```
+
+This works cleanly because framework files (`Makefile`, `templates/`, `.github/workflows/`) never
+overlap with your book's own content (`chapters/`, `metadata.yml`, `images/`), so a cherry-pick
+only ever touches the framework side.
