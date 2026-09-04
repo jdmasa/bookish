@@ -1,0 +1,13 @@
+---
+title: My Book Title
+author: Your Name
+rights: All rights reserved
+lang: en-US
+mainlang: english
+otherlang: english
+tags: [pandoc, ebook]
+abstract: |
+  A short summary of the book, shown in EPUB metadata and some e-readers.
+mainfont: DejaVu Sans
+linkReferences: true
+---

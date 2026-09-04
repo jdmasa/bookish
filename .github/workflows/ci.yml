@@ -1,0 +1,30 @@
+name: Build check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: pandoc/latex:latest
+
+    steps:
+      - name: Install build dependencies
+        run: apk add --no-cache git openssh-client make ttf-dejavu
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build all formats
+        run: make book
+
+      - name: Verify outputs
+        run: |
+          test -s build/epub/book.epub
+          test -s build/pdf/book.pdf
+          test -s build/html/book.html
+          test -s build/docx/book.docx
