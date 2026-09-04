@@ -82,7 +82,7 @@ distribution (`texlive-xetex`) — or just run everything inside the `pandoc/lat
 used by CI:
 
 ```sh
-docker run --rm --entrypoint sh -v "$PWD":/data -w /data pandoc/latex -c "apk add --no-cache make texlive-xetex texmf-dist-latexrecommended ttf-dejavu && export TEXINPUTS=/usr/share/texmf-dist/tex//: && make epub pdf"
+docker run --rm --entrypoint sh -v "$PWD":/data -w /data pandoc/latex -c "apk add --no-cache make texlive-xetex texmf-dist-latexrecommended texmf-dist-latexextra ttf-dejavu && export TEXINPUTS=/usr/share/texmf-dist/tex//: && make epub pdf"
 ```
 
 Locally with Pandoc installed:
