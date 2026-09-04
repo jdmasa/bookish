@@ -9,6 +9,12 @@ MAKEFILE = Makefile
 OUTPUT_FILENAME = book
 METADATA = metadata.yml
 CHAPTERS = chapters/*.md
+# EPUB-only backmatter (e.g. the QR/license colophon): appended after the
+# chapters for EPUB, since Pandoc only bundles images referenced this way
+# (real Markdown image syntax) into the EPUB package. PDF gets the same
+# images instead via the qr-image/license-badge-image template variables in
+# templates/pdf.latex, positioned after the (relocated) table of contents.
+BACKMATTER = backmatter/*.md
 TOC = --toc --toc-depth 2
 METADATA_ARGS = --metadata-file $(METADATA)
 IMAGES = $(shell find images -type f)
@@ -18,6 +24,7 @@ MATH_FORMULAS = --webtex
 
 # Chapters content
 CONTENT = awk 'FNR==1 && NR!=1 {print "\n\n"}{print}' $(CHAPTERS)
+EPUB_CONTENT = awk 'FNR==1 && NR!=1 {print "\n\n"}{print}' $(CHAPTERS) $(BACKMATTER)
 CONTENT_FILTERS = tee # Use this to add sed filters or other piped commands
 
 # Debugging
@@ -46,7 +53,7 @@ PDF_ARGS = --template templates/pdf.latex --pdf-engine xelatex
 
 BASE_DEPENDENCIES = $(MAKEFILE) $(CHAPTERS) $(METADATA) $(IMAGES) $(TEMPLATES)
 DOCX_DEPENDENCIES = $(BASE_DEPENDENCIES)
-EPUB_DEPENDENCIES = $(BASE_DEPENDENCIES)
+EPUB_DEPENDENCIES = $(BASE_DEPENDENCIES) $(BACKMATTER)
 HTML_DEPENDENCIES = $(BASE_DEPENDENCIES)
 PDF_DEPENDENCIES = $(BASE_DEPENDENCIES)
 
@@ -95,7 +102,7 @@ docx:	$(BUILD)/docx/$(OUTPUT_FILENAME).docx
 $(BUILD)/epub/$(OUTPUT_FILENAME).epub:	$(EPUB_DEPENDENCIES)
 	$(ECHO_BUILDING)
 	$(MKDIR_CMD) $(BUILD)/epub
-	$(CONTENT) | $(CONTENT_FILTERS) | $(PANDOC_COMMAND) $(ARGS) $(EPUB_ARGS) -o $@
+	$(EPUB_CONTENT) | $(CONTENT_FILTERS) | $(PANDOC_COMMAND) $(ARGS) $(EPUB_ARGS) -o $@
 	$(ECHO_BUILT)
 
 $(BUILD)/html/$(OUTPUT_FILENAME).html:	$(HTML_DEPENDENCIES)

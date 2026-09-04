@@ -10,4 +10,11 @@ abstract: |
   A short summary of the book, shown in EPUB metadata and some e-readers.
 mainfont: DejaVu Sans
 linkReferences: true
+# Closing "colophon" stamp on the PDF's back-of-book page, right below the
+# table of contents: a QR code (e.g. linking to a copyright registration or
+# verification page) next to a license badge image. Both must be set for
+# either to render. Set to blank/remove to omit the stamp entirely. The EPUB
+# gets the same two images via backmatter/colophon.md instead (see README).
+qr-image: images/qr.png
+license-badge-image: images/license-badge.png
 ---

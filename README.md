@@ -9,8 +9,13 @@ and attached automatically. Built on [Pandoc](https://pandoc.org/) and adapted f
 ```
 .
 ├── chapters/       # One Markdown file per chapter, ordered by filename
+│   └── 00-legal.md # Copyright/legal page — unnumbered, appears before chapter 1
+├── backmatter/     # EPUB-only content appended after the last chapter
+│   └── colophon.md # QR code + license badge stamp (see "Legal page and colophon" below)
 ├── images/         # Image assets, including the EPUB cover
-│   └── cover.png
+│   ├── cover.png
+│   ├── qr.png             # Placeholder QR code for the colophon stamp
+│   └── license-badge.png  # Placeholder license badge for the colophon stamp
 ├── templates/      # Pandoc output templates (epub, pdf/latex, html, docx)
 ├── metadata.yml    # Book title, author, language, etc.
 ├── Makefile        # Build automation (make epub / make pdf / make book)
@@ -29,6 +34,27 @@ and attached automatically. Built on [Pandoc](https://pandoc.org/) and adapted f
 See the [upstream template's README](https://github.com/wikiti/pandoc-book-template#readme) for
 details on cross-references, images, tables, equations, and content filters — all of that carries
 over unchanged.
+
+## Legal page and colophon
+
+`chapters/00-legal.md` sorts before every numbered chapter and has no heading, so it renders as an
+unnumbered page right after the title page — use it for authorship, licensing terms, registration
+codes, AI-assistance disclosure, or contact info for commercial licensing. Edit its text freely, or
+delete the file if you don't need a legal page.
+
+The table of contents is deliberately placed at the **back** of the PDF (not the EPUB, where
+e-readers rely on their own built-in navigation instead of an inline TOC page). Right below it, the
+PDF renders a small "colophon" stamp — a QR code next to a license badge — driven by the
+`qr-image`/`license-badge-image` fields in `metadata.yml`. Replace `images/qr.png` and
+`images/license-badge.png` with your own (e.g. a QR code linking to a copyright registration
+service, and an official [Creative Commons badge](https://creativecommons.org/about/downloads) or
+your own "all rights reserved" stamp), or remove both metadata fields to omit the stamp.
+
+The EPUB shows the same two images at the very end of the book instead, via
+`backmatter/colophon.md` — this is a separate file because Pandoc only bundles images into an EPUB
+when they're referenced through real Markdown image syntax in the content, not through template
+variables. Edit both `backmatter/colophon.md` and `metadata.yml`'s image paths together if you
+change the images.
 
 ## Building locally
 
