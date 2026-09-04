@@ -24,7 +24,7 @@ jobs:
           # This image's own TeX Live tree (/opt/texlive/texdir) doesn't include
           # the Alpine-packaged texmf-dist-* files (installed under
           # /usr/share/texmf-dist), so point TeX at them explicitly.
-          TEXINPUTS: /usr/share/texmf-dist/tex//:
+          TEXINPUTS: "/usr/share/texmf-dist/tex//:"
         run: make book
 
       - name: Verify outputs
