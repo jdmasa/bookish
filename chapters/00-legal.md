@@ -1,3 +1,5 @@
+# Aviso Legal {- .unlisted}
+
 **Autoría:** Nombre del autor o autora
 
 Obra registrada en Safe Creative con el código: 0000000000000
