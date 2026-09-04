@@ -100,6 +100,14 @@ Push your changes, then create and publish a
 tag, e.g. `v1.0.0`). The `release.yml` workflow picks it up, builds the EPUB and PDF, and attaches
 both files to that release automatically — no manual upload needed.
 
+## Publishing the HTML build as a website
+
+`.github/workflows/pages.yml` builds `make html` on every push to `main` and deploys it to GitHub
+Pages — a lightweight, always-current web version of the book alongside the EPUB/PDF releases.
+One-time setup on the repo: Settings → Pages → set "Source" to "GitHub Actions" (or
+`gh api repos/<owner>/<repo>/pages -X POST -f 'build_type=workflow'`). After that, every push to
+`main` redeploys the site automatically.
+
 ## Pulling framework updates
 
 This repo is a [GitHub template](https://github.com/jdmasa/bookish) — using "Use this template"
