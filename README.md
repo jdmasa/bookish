@@ -56,6 +56,25 @@ when they're referenced through real Markdown image syntax in the content, not t
 variables. Edit both `backmatter/colophon.md` and `metadata.yml`'s image paths together if you
 change the images.
 
+## PDF layout
+
+The PDF uses LaTeX's `book` class (`documentclass`/`classoption` in `metadata.yml`) with
+`--top-level-division=chapter` (see the Makefile's `DIVISION` variable), so every `#` heading
+starts a new page, and chapter titles render centered (`templates/pdf.latex`'s `titlesec` setup)
+instead of the class's default flush-left style. Set `cover-image: images/your-cover.png` in
+`metadata.yml` for a full-page cover as the PDF's very first page (the EPUB gets its cover
+separately, via `--epub-cover-image` in the Makefile).
+
+### Hiding a chapter's heading in favor of a graphical title
+
+Give a heading the `hidden-title` class — e.g. `# Introducción {.hidden-title}` — to keep it as a
+real table-of-contents/navigation entry while printing no visible heading text on the page itself.
+Put whatever should serve as the chapter's actual visual title (an image, a decorative divider)
+right below it in the Markdown. This is handled by `filters/hidden-title.lua`, applied
+unconditionally by the Makefile: for the PDF it emits a page break, a manual TOC entry, and a link
+target with no printed title; for the EPUB/HTML it leaves the heading in place (so the reader's
+navigation still lists it) and hides it visually via CSS in `templates/epub.html`.
+
 ## Building locally
 
 Requires [Pandoc](https://pandoc.org/installing.html), `make`, and (for PDF) a LaTeX
